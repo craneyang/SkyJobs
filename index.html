@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SkyJobs</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- mapbox API 2020.4.6 -->
+        <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.1/mapbox-gl.js'></script>
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.1/mapbox-gl.css' rel='stylesheet' />
+        
+        <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        /* body 样式 */
+        body {
+            font-family: Arial;
+            margin: 0;
+        }
+
+        /* 标题 */
+        .header {
+            padding: 60px;
+            /* text-align: left; */
+            background: #5568bd;
+            color: white;
+        }
+
+        /* 标题字体 */
+        .header h1 {
+            font-size: 30px;
+            position:absolute;
+            top: 10px;
+            left: 65px;
+        }
+        .header p{
+            font-size: 16px;
+            position:absolute;
+		    top:55px;
+            left: 65px;
+        }
+
+        /* logo图片 */
+        .logo{
+            position:absolute;
+            top:30px;
+            left: 10px;
+	    }
+
+        /* 导航 */
+        .navbar {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        /* 导航栏样式 */
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        /* 右侧链接*/
+        .navbar a.right {
+            float: right;
+        }
+
+        /* 鼠标移动到链接的颜色 */
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        /* 引导页 */
+
+
+        /* 列容器 */
+        .row {  
+            display: -ms-flexbox; /* IE10 */
+            display: flex;
+            -ms-flex-wrap: wrap; /* IE10 */
+            flex-wrap: wrap;
+        }
+
+        /* 创建两个列 */
+        /* 左边栏 */
+        .leftside {
+            -ms-flex: 20%; /* IE10 */
+            flex: 20%;
+            background-color: #b7e9f1;
+            padding: 20px;
+        }
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        /* 主要的内容区域 */
+        .main {   
+            -ms-flex: 60%; /* IE10 */
+            flex: 60%;
+            background-color: #b7e9f1; 
+            padding: 20px;
+        }
+
+        /* 地图样式改变 */
+        #menu {
+            position: absolute;
+            background: #fff;
+            padding: 10px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+
+
+        /* 测试图片 */
+        .fakeimg {
+            background-color: #aaa;
+            width: 100%;
+            padding: 20px;
+        }
+
+        /* 右边栏 */
+        .rightside{
+            -ms-flex: 20%; /* IE10 */
+            flex: 20%;
+            background-color: #b7e9f1;
+            padding: 20px;
+        }
+
+        /* 底部 */
+        .footer {
+            padding: 20px;
+            text-align: center;
+            background: #ddd;
+        }
+
+        /* 响应式布局 - 在屏幕设备宽度尺寸小于 700px 时, 让两栏上下堆叠显示 */
+        @media screen and (max-width: 700px) {
+            .row {   
+                flex-direction: column;
+            }
+        }
+
+        /* 响应式布局 - 在屏幕设备宽度尺寸小于 400px 时, 让导航栏目上下堆叠显示 */
+        @media screen and (max-width: 400px) {
+            .navbar a {
+                float: none;
+                width: 100%;
+            }
+        }
+        </style>
+    </head>
+
+    <body>
+        <!-- 页面标题 -->
+        <div class="header">
+            <a href="test.html" class="logo"><img  src="images/skytech-logo.png" height="48" width="48"></a>
+            <h1>SkyJobs</h1>
+            <p><em>Locate your favourite job</em></p>
+            
+        </div>
+        
+        <!-- 导航栏 -->
+        <div class="navbar">
+            <a href="#">Map</a>
+            <a href="#">Category</a>
+            <a herf="#">Post</a>
+            <a href="#">Help</a>
+            <a href="#" class="right">Contact</a>
+        </div>
+
+        <!--1. 引导页 -->
+
+        <!--2. 列容器 -->
+        <div class="row">
+            <!-- 左边栏 -->
+            <div class="leftside">
+                <h2 style="text-align:center">CV</h2> 
+                <h5 style="text-align:left">Click below for help</h2> 
+
+                <div class="" style="height:200px;">
+                    <a href="https://www.wondercv.com" target="_blank"><img src="images/resume.jpg"></a>
+                </div>
+                
+                <h2 style="text-align:center">Interview</h2>
+                <h5 style="text-align:left">Click below for help</h2>
+                
+                Professional
+                <div class="" style="width:200px;">
+                    
+                    <a href="https://www.zhihu.com/question/35953016?rf=34478434" target="_blank"><img src="images/interview1.jpg"></a>
+                    
+                </div><br>
+                Graduates
+                <div class="" style="width: 200px;">
+                    <a href="https://www.zhihu.com/question/59741110/answer/231732734" target="_blank"><img src="images/interview2.jpeg"></a>
+                </div><br>
+            
+            </div>
+
+            <!-- 右侧主页 -->
+            <div class="main">
+                <h2 style="text-align:center">Map</h2>
+
+                <!-- 地图模块 -->
+                <div id='map' style='width: 100%; height: 500px;'></div>
+                    <!-- 地图样式切换 -->
+                    <div id="menu">
+                        <input
+                            id="streets-v11"
+                            type="radio"
+                            name="rtoggle"
+                            value="streets"
+                            checked="checked"
+                        />
+
+                        <label for="streets">streets</label>
+                        <input id="light-v10" type="radio" name="rtoggle" value="light" />
+                        
+                        <label for="light">light</label>
+                        <input id="dark-v10" type="radio" name="rtoggle" value="dark" />
+                        
+                        <label for="dark">dark</label>
+                        <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors" />
+                        
+                        <label for="outdoors">outdoors</label>
+                        <input id="satellite-v9" type="radio" name="rtoggle" value="satellite" />
+                        
+                        <label for="satellite">satellite</label>
+                    </div>
+                    <!-- 地图script -->
+                    <script>
+                        //初始化地图 mapbox
+                        mapboxgl.accessToken = 'pk.eyJ1IjoiY3JhbmV5YW5nIiwiYSI6ImNrOG9pcmxyazAyeWEzbHByejJ3OTJtdnYifQ.UVQz2FAFM5K_P0GV5MWVMg';
+                        var map = new mapboxgl.Map({
+                            container: 'map',
+                            style: 'mapbox://styles/mapbox/streets-v11',
+                            zoom: 10,
+                            center: [103.85, 1.35] //初始定位在新加坡
+                        });
+                     
+                        var layerList = document.getElementById('menu');
+                        var inputs = layerList.getElementsByTagName('input');
+                        
+                        function switchLayer(layer) {
+                        var layerId = layer.target.id;
+                        map.setStyle('mapbox://styles/mapbox/' + layerId);
+                        }
+                        
+                        for (var i = 0; i < inputs.length; i++) {
+                            inputs[i].onclick = switchLayer;
+                        }
+                        // 获取当前用户位置
+                        map.addControl(
+                            new mapboxgl.GeolocateControl({
+                                positionOptions: {
+                                    enableHighAccuracy: true
+                                },
+                                trackUserLocation: true
+                            })
+                        );
+
+                    </script>
+
+
+            </div>
+
+            <!-- 右边栏 -->
+            <div class="rightside">
+                <h2>Are You hiring? <br>Post Position!</h2>
+                <h5>Fill in the form below</h5>
+            </div>
+
+
+        </div>
+        
+        
+        <!-- 3. 底部 -->
+        <div class="footer">
+        <p>Terms: The data collected by this form is for research purpose, they shall be shared for non-profit purpose. 
+            Filling in the form means you have read and agreed with the above terms. Copyright@Crane</p>
+        </div>
+
+</body>
+</html>
